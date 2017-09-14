@@ -1,0 +1,90 @@
+﻿@model FilmBox.Roll
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Roll</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SerialNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SerialNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsExpired)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsExpired)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remark)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remark)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsDeveloped)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsDeveloped)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Camera.ModelName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Camera.ModelName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Developer.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Developer.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Film.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Film.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Lens.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Lens.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Speed.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Speed.Id)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,762 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FilmBoxModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Camera">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Manufacturer_Id" Type="int" Nullable="false" />
+          <Property Name="ModelName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="Developer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Film">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Manufacturer_Id" Type="int" Nullable="false" />
+          <Property Name="Speed_Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="IsBW" Type="bit" Nullable="false" />
+          <Property Name="IsColorPositive" Type="bit" Nullable="false" />
+          <Property Name="IsInfraRed" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Image">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Roll_Id" Type="int" Nullable="false" />
+          <Property Name="Caption" Type="nvarchar(max)" />
+          <Property Name="ImageDirectory" Type="nvarchar" MaxLength="300" />
+          <Property Name="ImageLink" Type="nvarchar" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="Lens">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Manufacturer_Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Manufacturer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="IsFilmManufacturer" Type="bit" />
+          <Property Name="IsLensManufacturer" Type="bit" />
+          <Property Name="IsCameraManufacturer" Type="bit" />
+        </EntityType>
+        <EntityType Name="Roll">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SerialNumber" Type="int" Nullable="false" />
+          <Property Name="Film_Id" Type="int" Nullable="false" />
+          <Property Name="Camera_Id" Type="int" Nullable="false" />
+          <Property Name="Lens_Id" Type="int" Nullable="false" />
+          <Property Name="Speed_Id" Type="int" Nullable="false" />
+          <Property Name="IsExpired" Type="bit" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar(max)" />
+          <Property Name="IsDeveloped" Type="bit" Nullable="false" />
+          <Property Name="Developer_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="RollTag">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Roll_Id" Type="int" Nullable="false" />
+          <Property Name="Tag_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Speed">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Speed" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Camera_Manufacturer">
+          <End Role="Manufacturer" Type="Self.Manufacturer" Multiplicity="1" />
+          <End Role="Camera" Type="Self.Camera" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Camera">
+              <PropertyRef Name="Manufacturer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Film_Manufacturer">
+          <End Role="Manufacturer" Type="Self.Manufacturer" Multiplicity="1" />
+          <End Role="Film" Type="Self.Film" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Film">
+              <PropertyRef Name="Manufacturer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Film_Speed">
+          <End Role="Speed" Type="Self.Speed" Multiplicity="1" />
+          <End Role="Film" Type="Self.Film" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Speed">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Film">
+              <PropertyRef Name="Speed_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Image_Roll">
+          <End Role="Roll" Type="Self.Roll" Multiplicity="1" />
+          <End Role="Image" Type="Self.Image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roll">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Image">
+              <PropertyRef Name="Roll_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lens_Manufacturer">
+          <End Role="Manufacturer" Type="Self.Manufacturer" Multiplicity="1" />
+          <End Role="Lens" Type="Self.Lens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Lens">
+              <PropertyRef Name="Manufacturer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Roll_Camera">
+          <End Role="Camera" Type="Self.Camera" Multiplicity="1" />
+          <End Role="Roll" Type="Self.Roll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Camera">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Roll">
+              <PropertyRef Name="Camera_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Roll_Developer">
+          <End Role="Developer" Type="Self.Developer" Multiplicity="0..1" />
+          <End Role="Roll" Type="Self.Roll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Developer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Roll">
+              <PropertyRef Name="Developer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Roll_Film">
+          <End Role="Film" Type="Self.Film" Multiplicity="1" />
+          <End Role="Roll" Type="Self.Roll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Film">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Roll">
+              <PropertyRef Name="Film_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Roll_Lens">
+          <End Role="Lens" Type="Self.Lens" Multiplicity="1" />
+          <End Role="Roll" Type="Self.Roll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lens">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Roll">
+              <PropertyRef Name="Lens_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Roll_Speed">
+          <End Role="Speed" Type="Self.Speed" Multiplicity="1" />
+          <End Role="Roll" Type="Self.Roll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Speed">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Roll">
+              <PropertyRef Name="Speed_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RollTag_Roll">
+          <End Role="Roll" Type="Self.Roll" Multiplicity="1" />
+          <End Role="RollTag" Type="Self.RollTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roll">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RollTag">
+              <PropertyRef Name="Roll_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RollTag_Tag">
+          <End Role="Tag" Type="Self.Tag" Multiplicity="1" />
+          <End Role="RollTag" Type="Self.RollTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tag">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RollTag">
+              <PropertyRef Name="Tag_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FilmBoxModelStoreContainer">
+          <EntitySet Name="Camera" EntityType="Self.Camera" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Developer" EntityType="Self.Developer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Film" EntityType="Self.Film" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Image" EntityType="Self.Image" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Lens" EntityType="Self.Lens" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Manufacturer" EntityType="Self.Manufacturer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roll" EntityType="Self.Roll" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RollTag" EntityType="Self.RollTag" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Speed" EntityType="Self.Speed" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tag" EntityType="Self.Tag" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Camera_Manufacturer" Association="Self.FK_Camera_Manufacturer">
+            <End Role="Manufacturer" EntitySet="Manufacturer" />
+            <End Role="Camera" EntitySet="Camera" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Film_Manufacturer" Association="Self.FK_Film_Manufacturer">
+            <End Role="Manufacturer" EntitySet="Manufacturer" />
+            <End Role="Film" EntitySet="Film" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Film_Speed" Association="Self.FK_Film_Speed">
+            <End Role="Speed" EntitySet="Speed" />
+            <End Role="Film" EntitySet="Film" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Image_Roll" Association="Self.FK_Image_Roll">
+            <End Role="Roll" EntitySet="Roll" />
+            <End Role="Image" EntitySet="Image" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lens_Manufacturer" Association="Self.FK_Lens_Manufacturer">
+            <End Role="Manufacturer" EntitySet="Manufacturer" />
+            <End Role="Lens" EntitySet="Lens" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Roll_Camera" Association="Self.FK_Roll_Camera">
+            <End Role="Camera" EntitySet="Camera" />
+            <End Role="Roll" EntitySet="Roll" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Roll_Developer" Association="Self.FK_Roll_Developer">
+            <End Role="Developer" EntitySet="Developer" />
+            <End Role="Roll" EntitySet="Roll" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Roll_Film" Association="Self.FK_Roll_Film">
+            <End Role="Film" EntitySet="Film" />
+            <End Role="Roll" EntitySet="Roll" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Roll_Lens" Association="Self.FK_Roll_Lens">
+            <End Role="Lens" EntitySet="Lens" />
+            <End Role="Roll" EntitySet="Roll" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Roll_Speed" Association="Self.FK_Roll_Speed">
+            <End Role="Speed" EntitySet="Speed" />
+            <End Role="Roll" EntitySet="Roll" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RollTag_Roll" Association="Self.FK_RollTag_Roll">
+            <End Role="Roll" EntitySet="Roll" />
+            <End Role="RollTag" EntitySet="RollTag" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RollTag_Tag" Association="Self.FK_RollTag_Tag">
+            <End Role="Tag" EntitySet="Tag" />
+            <End Role="RollTag" EntitySet="RollTag" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FilmBoxModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Camera">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Manufacturer_Id" Type="Int32" Nullable="false" />
+          <Property Name="ModelName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Manufacturer" Relationship="Self.FK_Camera_Manufacturer" FromRole="Camera" ToRole="Manufacturer" />
+          <NavigationProperty Name="Roll" Relationship="Self.FK_Roll_Camera" FromRole="Camera" ToRole="Roll" />
+        </EntityType>
+        <EntityType Name="Developer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Roll" Relationship="Self.FK_Roll_Developer" FromRole="Developer" ToRole="Roll" />
+        </EntityType>
+        <EntityType Name="Film">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Manufacturer_Id" Type="Int32" Nullable="false" />
+          <Property Name="Speed_Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsBW" Type="Boolean" Nullable="false" />
+          <Property Name="IsColorPositive" Type="Boolean" Nullable="false" />
+          <Property Name="IsInfraRed" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Manufacturer" Relationship="Self.FK_Film_Manufacturer" FromRole="Film" ToRole="Manufacturer" />
+          <NavigationProperty Name="Speed" Relationship="Self.FK_Film_Speed" FromRole="Film" ToRole="Speed" />
+          <NavigationProperty Name="Roll" Relationship="Self.FK_Roll_Film" FromRole="Film" ToRole="Roll" />
+        </EntityType>
+        <EntityType Name="Image">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Roll_Id" Type="Int32" Nullable="false" />
+          <Property Name="Caption" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ImageDirectory" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="ImageLink" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Roll" Relationship="Self.FK_Image_Roll" FromRole="Image" ToRole="Roll" />
+        </EntityType>
+        <EntityType Name="Lens">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Manufacturer_Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Manufacturer" Relationship="Self.FK_Lens_Manufacturer" FromRole="Lens" ToRole="Manufacturer" />
+          <NavigationProperty Name="Roll" Relationship="Self.FK_Roll_Lens" FromRole="Lens" ToRole="Roll" />
+        </EntityType>
+        <EntityType Name="Manufacturer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsFilmManufacturer" Type="Boolean" />
+          <Property Name="IsLensManufacturer" Type="Boolean" />
+          <Property Name="IsCameraManufacturer" Type="Boolean" />
+          <NavigationProperty Name="Camera" Relationship="Self.FK_Camera_Manufacturer" FromRole="Manufacturer" ToRole="Camera" />
+          <NavigationProperty Name="Film" Relationship="Self.FK_Film_Manufacturer" FromRole="Manufacturer" ToRole="Film" />
+          <NavigationProperty Name="Lens" Relationship="Self.FK_Lens_Manufacturer" FromRole="Manufacturer" ToRole="Lens" />
+        </EntityType>
+        <EntityType Name="Roll">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SerialNumber" Type="Int32" Nullable="false" />
+          <Property Name="Film_Id" Type="Int32" Nullable="false" />
+          <Property Name="Camera_Id" Type="Int32" Nullable="false" />
+          <Property Name="Lens_Id" Type="Int32" Nullable="false" />
+          <Property Name="Speed_Id" Type="Int32" Nullable="false" />
+          <Property Name="IsExpired" Type="Boolean" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeveloped" Type="Boolean" Nullable="false" />
+          <Property Name="Developer_Id" Type="Int32" />
+          <NavigationProperty Name="Camera" Relationship="Self.FK_Roll_Camera" FromRole="Roll" ToRole="Camera" />
+          <NavigationProperty Name="Developer" Relationship="Self.FK_Roll_Developer" FromRole="Roll" ToRole="Developer" />
+          <NavigationProperty Name="Film" Relationship="Self.FK_Roll_Film" FromRole="Roll" ToRole="Film" />
+          <NavigationProperty Name="Image" Relationship="Self.FK_Image_Roll" FromRole="Roll" ToRole="Image" />
+          <NavigationProperty Name="Lens" Relationship="Self.FK_Roll_Lens" FromRole="Roll" ToRole="Lens" />
+          <NavigationProperty Name="Speed" Relationship="Self.FK_Roll_Speed" FromRole="Roll" ToRole="Speed" />
+          <NavigationProperty Name="RollTag" Relationship="Self.FK_RollTag_Roll" FromRole="Roll" ToRole="RollTag" />
+        </EntityType>
+        <EntityType Name="RollTag">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Roll_Id" Type="Int32" Nullable="false" />
+          <Property Name="Tag_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Roll" Relationship="Self.FK_RollTag_Roll" FromRole="RollTag" ToRole="Roll" />
+          <NavigationProperty Name="Tag" Relationship="Self.FK_RollTag_Tag" FromRole="RollTag" ToRole="Tag" />
+        </EntityType>
+        <EntityType Name="Speed">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Speed1" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Film" Relationship="Self.FK_Film_Speed" FromRole="Speed" ToRole="Film" />
+          <NavigationProperty Name="Roll" Relationship="Self.FK_Roll_Speed" FromRole="Speed" ToRole="Roll" />
+        </EntityType>
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="RollTag" Relationship="Self.FK_RollTag_Tag" FromRole="Tag" ToRole="RollTag" />
+        </EntityType>
+        <Association Name="FK_Camera_Manufacturer">
+          <End Role="Manufacturer" Type="Self.Manufacturer" Multiplicity="1" />
+          <End Role="Camera" Type="Self.Camera" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Camera">
+              <PropertyRef Name="Manufacturer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Roll_Camera">
+          <End Role="Camera" Type="Self.Camera" Multiplicity="1" />
+          <End Role="Roll" Type="Self.Roll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Camera">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Roll">
+              <PropertyRef Name="Camera_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Roll_Developer">
+          <End Role="Developer" Type="Self.Developer" Multiplicity="0..1" />
+          <End Role="Roll" Type="Self.Roll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Developer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Roll">
+              <PropertyRef Name="Developer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Film_Manufacturer">
+          <End Role="Manufacturer" Type="Self.Manufacturer" Multiplicity="1" />
+          <End Role="Film" Type="Self.Film" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Film">
+              <PropertyRef Name="Manufacturer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Film_Speed">
+          <End Role="Speed" Type="Self.Speed" Multiplicity="1" />
+          <End Role="Film" Type="Self.Film" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Speed">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Film">
+              <PropertyRef Name="Speed_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Roll_Film">
+          <End Role="Film" Type="Self.Film" Multiplicity="1" />
+          <End Role="Roll" Type="Self.Roll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Film">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Roll">
+              <PropertyRef Name="Film_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Image_Roll">
+          <End Role="Roll" Type="Self.Roll" Multiplicity="1" />
+          <End Role="Image" Type="Self.Image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roll">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Image">
+              <PropertyRef Name="Roll_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lens_Manufacturer">
+          <End Role="Manufacturer" Type="Self.Manufacturer" Multiplicity="1" />
+          <End Role="Lens" Type="Self.Lens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Lens">
+              <PropertyRef Name="Manufacturer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Roll_Lens">
+          <End Role="Lens" Type="Self.Lens" Multiplicity="1" />
+          <End Role="Roll" Type="Self.Roll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lens">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Roll">
+              <PropertyRef Name="Lens_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Roll_Speed">
+          <End Role="Speed" Type="Self.Speed" Multiplicity="1" />
+          <End Role="Roll" Type="Self.Roll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Speed">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Roll">
+              <PropertyRef Name="Speed_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RollTag_Roll">
+          <End Role="Roll" Type="Self.Roll" Multiplicity="1" />
+          <End Role="RollTag" Type="Self.RollTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roll">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RollTag">
+              <PropertyRef Name="Roll_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RollTag_Tag">
+          <End Role="Tag" Type="Self.Tag" Multiplicity="1" />
+          <End Role="RollTag" Type="Self.RollTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tag">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RollTag">
+              <PropertyRef Name="Tag_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FilmBoxEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Camera" EntityType="Self.Camera" />
+          <EntitySet Name="Developer" EntityType="Self.Developer" />
+          <EntitySet Name="Film" EntityType="Self.Film" />
+          <EntitySet Name="Image" EntityType="Self.Image" />
+          <EntitySet Name="Lens" EntityType="Self.Lens" />
+          <EntitySet Name="Manufacturer" EntityType="Self.Manufacturer" />
+          <EntitySet Name="Roll" EntityType="Self.Roll" />
+          <EntitySet Name="RollTag" EntityType="Self.RollTag" />
+          <EntitySet Name="Speed" EntityType="Self.Speed" />
+          <EntitySet Name="Tag" EntityType="Self.Tag" />
+          <AssociationSet Name="FK_Camera_Manufacturer" Association="Self.FK_Camera_Manufacturer">
+            <End Role="Manufacturer" EntitySet="Manufacturer" />
+            <End Role="Camera" EntitySet="Camera" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Roll_Camera" Association="Self.FK_Roll_Camera">
+            <End Role="Camera" EntitySet="Camera" />
+            <End Role="Roll" EntitySet="Roll" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Roll_Developer" Association="Self.FK_Roll_Developer">
+            <End Role="Developer" EntitySet="Developer" />
+            <End Role="Roll" EntitySet="Roll" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Film_Manufacturer" Association="Self.FK_Film_Manufacturer">
+            <End Role="Manufacturer" EntitySet="Manufacturer" />
+            <End Role="Film" EntitySet="Film" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Film_Speed" Association="Self.FK_Film_Speed">
+            <End Role="Speed" EntitySet="Speed" />
+            <End Role="Film" EntitySet="Film" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Roll_Film" Association="Self.FK_Roll_Film">
+            <End Role="Film" EntitySet="Film" />
+            <End Role="Roll" EntitySet="Roll" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Image_Roll" Association="Self.FK_Image_Roll">
+            <End Role="Roll" EntitySet="Roll" />
+            <End Role="Image" EntitySet="Image" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lens_Manufacturer" Association="Self.FK_Lens_Manufacturer">
+            <End Role="Manufacturer" EntitySet="Manufacturer" />
+            <End Role="Lens" EntitySet="Lens" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Roll_Lens" Association="Self.FK_Roll_Lens">
+            <End Role="Lens" EntitySet="Lens" />
+            <End Role="Roll" EntitySet="Roll" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Roll_Speed" Association="Self.FK_Roll_Speed">
+            <End Role="Speed" EntitySet="Speed" />
+            <End Role="Roll" EntitySet="Roll" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RollTag_Roll" Association="Self.FK_RollTag_Roll">
+            <End Role="Roll" EntitySet="Roll" />
+            <End Role="RollTag" EntitySet="RollTag" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RollTag_Tag" Association="Self.FK_RollTag_Tag">
+            <End Role="Tag" EntitySet="Tag" />
+            <End Role="RollTag" EntitySet="RollTag" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FilmBoxModelStoreContainer" CdmEntityContainer="FilmBoxEntities">
+          <EntitySetMapping Name="Camera">
+            <EntityTypeMapping TypeName="FilmBoxModel.Camera">
+              <MappingFragment StoreEntitySet="Camera">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Manufacturer_Id" ColumnName="Manufacturer_Id" />
+                <ScalarProperty Name="ModelName" ColumnName="ModelName" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Developer">
+            <EntityTypeMapping TypeName="FilmBoxModel.Developer">
+              <MappingFragment StoreEntitySet="Developer">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Film">
+            <EntityTypeMapping TypeName="FilmBoxModel.Film">
+              <MappingFragment StoreEntitySet="Film">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Manufacturer_Id" ColumnName="Manufacturer_Id" />
+                <ScalarProperty Name="Speed_Id" ColumnName="Speed_Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsBW" ColumnName="IsBW" />
+                <ScalarProperty Name="IsColorPositive" ColumnName="IsColorPositive" />
+                <ScalarProperty Name="IsInfraRed" ColumnName="IsInfraRed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Image">
+            <EntityTypeMapping TypeName="FilmBoxModel.Image">
+              <MappingFragment StoreEntitySet="Image">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Roll_Id" ColumnName="Roll_Id" />
+                <ScalarProperty Name="Caption" ColumnName="Caption" />
+                <ScalarProperty Name="ImageDirectory" ColumnName="ImageDirectory" />
+                <ScalarProperty Name="ImageLink" ColumnName="ImageLink" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lens">
+            <EntityTypeMapping TypeName="FilmBoxModel.Lens">
+              <MappingFragment StoreEntitySet="Lens">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Manufacturer_Id" ColumnName="Manufacturer_Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Manufacturer">
+            <EntityTypeMapping TypeName="FilmBoxModel.Manufacturer">
+              <MappingFragment StoreEntitySet="Manufacturer">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsFilmManufacturer" ColumnName="IsFilmManufacturer" />
+                <ScalarProperty Name="IsLensManufacturer" ColumnName="IsLensManufacturer" />
+                <ScalarProperty Name="IsCameraManufacturer" ColumnName="IsCameraManufacturer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roll">
+            <EntityTypeMapping TypeName="FilmBoxModel.Roll">
+              <MappingFragment StoreEntitySet="Roll">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="Film_Id" ColumnName="Film_Id" />
+                <ScalarProperty Name="Camera_Id" ColumnName="Camera_Id" />
+                <ScalarProperty Name="Lens_Id" ColumnName="Lens_Id" />
+                <ScalarProperty Name="Speed_Id" ColumnName="Speed_Id" />
+                <ScalarProperty Name="IsExpired" ColumnName="IsExpired" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="IsDeveloped" ColumnName="IsDeveloped" />
+                <ScalarProperty Name="Developer_Id" ColumnName="Developer_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RollTag">
+            <EntityTypeMapping TypeName="FilmBoxModel.RollTag">
+              <MappingFragment StoreEntitySet="RollTag">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Roll_Id" ColumnName="Roll_Id" />
+                <ScalarProperty Name="Tag_Id" ColumnName="Tag_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Speed">
+            <EntityTypeMapping TypeName="FilmBoxModel.Speed">
+              <MappingFragment StoreEntitySet="Speed">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Speed1" ColumnName="Speed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tag">
+            <EntityTypeMapping TypeName="FilmBoxModel.Tag">
+              <MappingFragment StoreEntitySet="Tag">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

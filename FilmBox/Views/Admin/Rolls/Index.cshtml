@@ -1,0 +1,81 @@
+﻿@model IEnumerable<FilmBox.Roll>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SerialNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsExpired)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remark)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsDeveloped)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Camera.ModelName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Developer.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Film.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lens.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Speed.Id)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SerialNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsExpired)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remark)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsDeveloped)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Camera.ModelName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Developer.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Film.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Lens.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Speed.Id)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
